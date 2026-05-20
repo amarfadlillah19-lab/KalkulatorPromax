@@ -1,0 +1,49 @@
+:root {
+    --bg-primary: #252220;
+    --bg-secondary: #1e1c1a;
+    --bg-panel: #2d2926;
+    --bg-input: #e8e4d9;
+    --bg-button: #d4cfc4;
+    --bg-console: #1a1816;
+    --text-primary: #e8e4d9;
+    --text-secondary: #a39e93;
+    --text-console: #4ade80;
+    --text-dark: #1a1816;
+    --border-color: #e8e4d9;
+    --accent-red: #ff5f57;
+    --accent-yellow: #febc2e;
+    --accent-green: #28c840;
+    --font-mono: 'VT323', 'Courier New', monospace;
+    --font-ui: 'Inter', sans-serif;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f0ebe3;
+    --bg-secondary: #e4dfd7;
+    --bg-panel: #faf6f0;
+    --bg-input: #ffffff;
+    --bg-button: #e4dfd7;
+    --bg-console: #2d2926;
+    --text-primary: #2d2926;
+    --text-secondary: #6b6560;
+    --text-console: #4ade80;
+    --text-dark: #2d2926;
+    --border-color: #2d2926;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Title Bar */
