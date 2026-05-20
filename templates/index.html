@@ -20,3 +20,48 @@
             <span>File</span>
             <span>Edit</span>
             <span>View</span>
+            <span>Help</span>
+        </div>
+        <div class="title-right">
+            <button id="themeToggle" class="window-btn" title="Toggle Dark/Light">◐</button>
+            <button class="window-btn minimize">−</button>
+            <button class="window-btn maximize">□</button>
+            <button class="window-btn close">×</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="row g-3 h-100">
+            <!-- Left Panel -->
+            <div class="col-lg-7 col-md-12">
+                <div class="app-window">
+                    <div class="window-header">
+                        <div class="window-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="window-title" id="windowTitle">Arithmetic.exe</span>
+                    </div>
+
+                    <div class="window-body">
+                        <!-- Tabs -->
+                        <div class="tab-container">
+                            <button class="tab-btn active" data-cat="aritmatika">Aritmatika</button>
+                            <button class="tab-btn" data-cat="logika">Logika</button>
+                            <button class="tab-btn" data-cat="basis">Basis</button>
+                            <button class="tab-btn" data-cat="suhu">Suhu</button>
+                            <button class="tab-btn" data-cat="kurs">Kurs</button>
+                            <button class="tab-btn" data-cat="bonus">Bonus</button>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div class="content-area">
+                            <!-- Inputs -->
+                            <div class="input-section" id="inputSection">
+                                <div class="row g-2" id="dualInput">
+                                    <div class="col-6">
+                                        <label class="input-label">Variable A:</label>
+                                        <input type="text" id="inputA" class="retro-input" placeholder="0" autocomplete="off">
+                                    </div>
