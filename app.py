@@ -256,3 +256,57 @@ def calc_suhu(op, data):
         steps = [f"Langkah 1: Ambil suhu Celcius = {val}", f"Langkah 2: {val} × 9/5 = {val*9/5}", f"Langkah 3: {val*9/5} + 32 = {res}°F"]
     elif op == "c-to-k":
         res = val + 273.15
+        formula = f"{val}°C + 273.15"
+        steps = [f"Langkah 1: Ambil suhu Celcius = {val}", f"Langkah 2: {val} + 273.15 = {res}K"]
+    elif op == "c-to-r":
+        res = val * 4/5
+        formula = f"{val}°C × 4/5"
+        steps = [f"Langkah 1: Ambil suhu Celcius = {val}", f"Langkah 2: {val} × 4/5 = {res}°R"]
+    elif op == "f-to-c":
+        res = (val - 32) * 5/9
+        formula = f"({val}°F - 32) × 5/9"
+        steps = [f"Langkah 1: Ambil suhu Fahrenheit = {val}", f"Langkah 2: {val} - 32 = {val-32}", f"Langkah 3: {val-32} × 5/9 = {res}°C"]
+    elif op == "f-to-k":
+        res = (val - 32) * 5/9 + 273.15
+        formula = f"({val}°F - 32) × 5/9 + 273.15"
+        steps = [f"Langkah 1: Ambil suhu Fahrenheit = {val}", f"Langkah 2: ({val} - 32) × 5/9 = {(val-32)*5/9}", f"Langkah 3: {(val-32)*5/9} + 273.15 = {res}K"]
+    elif op == "f-to-r":
+        res = (val - 32) * 4/9
+        formula = f"({val}°F - 32) × 4/9"
+        steps = [f"Langkah 1: Ambil suhu Fahrenheit = {val}", f"Langkah 2: {val} - 32 = {val-32}", f"Langkah 3: {val-32} × 4/9 = {res}°R"]
+    elif op == "k-to-c":
+        res = val - 273.15
+        formula = f"{val}K - 273.15"
+        steps = [f"Langkah 1: Ambil suhu Kelvin = {val}", f"Langkah 2: {val} - 273.15 = {res}°C"]
+    elif op == "k-to-f":
+        res = (val - 273.15) * 9/5 + 32
+        formula = f"({val}K - 273.15) × 9/5 + 32"
+        steps = [f"Langkah 1: Ambil suhu Kelvin = {val}", f"Langkah 2: {val} - 273.15 = {val-273.15}", f"Langkah 3: {val-273.15} × 9/5 + 32 = {res}°F"]
+    elif op == "k-to-r":
+        res = (val - 273.15) * 4/5
+        formula = f"({val}K - 273.15) × 4/5"
+        steps = [f"Langkah 1: Ambil suhu Kelvin = {val}", f"Langkah 2: {val} - 273.15 = {val-273.15}", f"Langkah 3: {val-273.15} × 4/5 = {res}°R"]
+    elif op == "r-to-c":
+        res = val * 5/4
+        formula = f"{val}°R × 5/4"
+        steps = [f"Langkah 1: Ambil suhu Reamur = {val}", f"Langkah 2: {val} × 5/4 = {res}°C"]
+    elif op == "r-to-f":
+        res = val * 9/4 + 32
+        formula = f"({val}°R × 9/4) + 32"
+        steps = [f"Langkah 1: Ambil suhu Reamur = {val}", f"Langkah 2: {val} × 9/4 = {val*9/4}", f"Langkah 3: {val*9/4} + 32 = {res}°F"]
+    elif op == "r-to-k":
+        res = val * 5/4 + 273.15
+        formula = f"({val}°R × 5/4) + 273.15"
+        steps = [f"Langkah 1: Ambil suhu Reamur = {val}", f"Langkah 2: {val} × 5/4 = {val*5/4}", f"Langkah 3: {val*5/4} + 273.15 = {res}K"]
+    else:
+        raise ValueError("Konversi suhu tidak dikenal")
+
+    return round(res, 4), formula, steps
+
+def calc_kurs(op, data):
+    val = float(data.get("value", 0))
+    currency = op.replace("idr-to-", "").upper()
+    rate = CURRENCY_RATES.get(currency, 0)
+
+    if rate == 0:
+        raise ValueError("Mata uang tidak dikenal")
