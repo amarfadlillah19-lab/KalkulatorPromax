@@ -182,3 +182,77 @@ def calc_logika(op, data):
         else:
             raise ValueError("Operator logika tidak dikenal")
         steps = [f"Langkah 1: Konversi A = {a} → {bool(val_a)} (boolean)", f"Langkah 2: Konversi B = {b} → {bool(val_b)} (boolean)" if val_b is not None else f"Langkah 2: Hanya gunakan A = {bool(val_a)}", f"Langkah 3: {formula} = {res}"]
+
+    return res, formula, steps
+
+def calc_basis(op, data):
+    val = data.get("value", "")
+
+    if op == "dec-to-bin":
+        n = int(val)
+        res = bin(n)[2:]
+        formula = f"Decimal {n} → Binary"
+        steps = [f"Langkah 1: Ambil nilai decimal = {n}", f"Langkah 2: Bagi 2 berulang kali dan catat sisa", f"Langkah 3: Hasil = {res}"]
+    elif op == "dec-to-oct":
+        n = int(val)
+        res = oct(n)[2:]
+        formula = f"Decimal {n} → Octal"
+        steps = [f"Langkah 1: Ambil nilai decimal = {n}", f"Langkah 2: Bagi 8 berulang kali dan catat sisa", f"Langkah 3: Hasil = {res}"]
+    elif op == "dec-to-hex":
+        n = int(val)
+        res = hex(n)[2:].upper()
+        formula = f"Decimal {n} → Hexadecimal"
+        steps = [f"Langkah 1: Ambil nilai decimal = {n}", f"Langkah 2: Bagi 16 berulang kali dan catat sisa", f"Langkah 3: Hasil = {res}"]
+    elif op == "bin-to-dec":
+        n = str(val)
+        res = int(n, 2)
+        formula = f"Binary {n} → Decimal"
+        steps = [f"Langkah 1: Ambil nilai binary = {n}", f"Langkah 2: Kalikan setiap bit dengan 2^n", f"Langkah 3: Hasil = {res}"]
+    elif op == "oct-to-dec":
+        n = str(val)
+        res = int(n, 8)
+        formula = f"Octal {n} → Decimal"
+        steps = [f"Langkah 1: Ambil nilai octal = {n}", f"Langkah 2: Kalikan setiap digit dengan 8^n", f"Langkah 3: Hasil = {res}"]
+    elif op == "hex-to-dec":
+        n = str(val)
+        res = int(n, 16)
+        formula = f"Hexadecimal {n} → Decimal"
+        steps = [f"Langkah 1: Ambil nilai hex = {n}", f"Langkah 2: Kalikan setiap digit dengan 16^n", f"Langkah 3: Hasil = {res}"]
+    elif op == "bin-to-oct":
+        n = str(val)
+        dec = int(n, 2)
+        res = oct(dec)[2:]
+        formula = f"Binary {n} → Octal"
+        steps = [f"Langkah 1: Binary {n} → Decimal = {dec}", f"Langkah 2: Decimal {dec} → Octal", f"Langkah 3: Hasil = {res}"]
+    elif op == "bin-to-hex":
+        n = str(val)
+        dec = int(n, 2)
+        res = hex(dec)[2:].upper()
+        formula = f"Binary {n} → Hexadecimal"
+        steps = [f"Langkah 1: Binary {n} → Decimal = {dec}", f"Langkah 2: Decimal {dec} → Hex", f"Langkah 3: Hasil = {res}"]
+    elif op == "oct-to-bin":
+        n = str(val)
+        dec = int(n, 8)
+        res = bin(dec)[2:]
+        formula = f"Octal {n} → Binary"
+        steps = [f"Langkah 1: Octal {n} → Decimal = {dec}", f"Langkah 2: Decimal {dec} → Binary", f"Langkah 3: Hasil = {res}"]
+    elif op == "hex-to-bin":
+        n = str(val)
+        dec = int(n, 16)
+        res = bin(dec)[2:]
+        formula = f"Hexadecimal {n} → Binary"
+        steps = [f"Langkah 1: Hex {n} → Decimal = {dec}", f"Langkah 2: Decimal {dec} → Binary", f"Langkah 3: Hasil = {res}"]
+    else:
+        raise ValueError("Operasi basis tidak dikenal")
+
+    return res, formula, steps
+
+def calc_suhu(op, data):
+    val = float(data.get("value", 0))
+
+    if op == "c-to-f":
+        res = (val * 9/5) + 32
+        formula = f"({val}°C × 9/5) + 32"
+        steps = [f"Langkah 1: Ambil suhu Celcius = {val}", f"Langkah 2: {val} × 9/5 = {val*9/5}", f"Langkah 3: {val*9/5} + 32 = {res}°F"]
+    elif op == "c-to-k":
+        res = val + 273.15

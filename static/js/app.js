@@ -76,3 +76,84 @@ document.addEventListener('DOMContentLoaded', () => {
         opsGrids.forEach(g => {
             g.classList.toggle('active', g.dataset.cat === cat);
         });
+
+        // Update window title
+        windowTitle.textContent = catTitles[cat] || 'Kalkulator.exe';
+
+        // Toggle inputs
+        if (singleInputCats.includes(cat)) {
+            dualInput.classList.add('d-none');
+            singleInput.classList.remove('d-none');
+        } else {
+            dualInput.classList.remove('d-none');
+            singleInput.classList.add('d-none');
+        }
+
+        // Clear op selection
+        opBtns.forEach(b => b.classList.remove('selected'));
+
+        // Clear console
+        clearConsole();
+    }
+
+    // Tab click handlers
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => switchCategory(tab.dataset.cat));
+    });
+
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => switchCategory(btn.dataset.cat));
+    });
+
+    // Operation button handlers
+    opBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const parent = btn.closest('.ops-grid');
+            if (!parent.classList.contains('active')) return;
+
+            parent.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentOperation = btn.dataset.op;
+        });
+    });
+
+    // Console functions
+    function clearConsole() {
+        consoleBody.innerHTML = '<div class="console-line">> HASIL: 0</div><div class="console-line blink">_</div>';
+    }
+
+    function writeConsole(text, isResult = false) {
+        consoleBody.innerHTML = '';
+        const lines = text.split('\n');
+        lines.forEach(line => {
+            const div = document.createElement('div');
+            div.className = 'console-line';
+            div.textContent = '> ' + line;
+            if (isResult) div.style.color = '#4ade80';
+            consoleBody.appendChild(div);
+        });
+        const blink = document.createElement('div');
+        blink.className = 'console-line blink';
+        blink.textContent = '_';
+        consoleBody.appendChild(blink);
+
+        // Auto scroll
+        consoleBody.scrollTop = consoleBody.scrollHeight;
+    }
+
+    // Logs functions
+    function addLog(formula, result) {
+        const time = new Date().toLocaleTimeString('id-ID', {hour12: false});
+        const logLine = document.createElement('div');
+        logLine.className = 'log-line';
+        logLine.innerHTML = `<span class="timestamp">[${time}]</span> ${formula} = ${result}`;
+        logsBody.insertBefore(logLine, logsBody.firstChild);
+
+        // Keep max 50 logs in DOM
+        while (logsBody.children.length > 50) {
+            logsBody.removeChild(logsBody.lastChild);
+        }
+    }
+
+    function clearLogs() {
+        logsBody.innerHTML = '<div class="log-line">> _</div>';
