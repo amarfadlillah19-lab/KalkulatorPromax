@@ -310,3 +310,59 @@ def calc_kurs(op, data):
 
     if rate == 0:
         raise ValueError("Mata uang tidak dikenal")
+
+    res = val * rate
+    formula = f"{val} IDR × {rate} {currency}/IDR"
+    steps = [
+        f"Langkah 1: Ambil nilai IDR = Rp {val:,.2f}",
+        f"Langkah 2: Rate {currency} = {rate} (statis)",
+        f"Langkah 3: {val} × {rate} = {res:.6f} {currency}"
+    ]
+    return round(res, 6), formula, steps
+
+def calc_bonus(op, data):
+    val = int(data.get("value", 0))
+
+    if op == "faktorial":
+        if val < 0: raise ValueError("Faktorial negatif tidak valid!")
+        if val > 170: raise ValueError("Nilai terlalu besar!")
+        res = math.factorial(val)
+        formula = f"{val}!"
+        steps = [f"Langkah 1: Ambil nilai n = {val}", f"Langkah 2: Hitung {val}! = {' × '.join(str(i) for i in range(1, min(val+1, 11)))}{' × ...' if val > 10 else ''}", f"Langkah 3: Hasil = {res}"]
+    elif op == "fibonacci":
+        if val < 0: raise ValueError("Fibonacci negatif tidak valid!")
+        if val > 10000: raise ValueError("Nilai terlalu besar!")
+
+        def fib(n):
+            if n == 0: return 0
+            if n == 1: return 1
+            a, b = 0, 1
+            for _ in range(2, n+1):
+                a, b = b, a+b
+            return b
+
+        res = fib(val)
+        formula = f"F({val})"
+
+        # Buat deret
+        deret = []
+        a, b = 0, 1
+        for i in range(val+1):
+            if i == 0: deret.append(0)
+            elif i == 1: deret.append(1)
+            else:
+                a, b = b, a+b
+                deret.append(b)
+
+        steps = [
+            f"Langkah 1: Ambil nilai n = {val}",
+            f"Langkah 2: Deret: {', '.join(str(x) for x in deret[:min(10, len(deret))])}{', ...' if len(deret) > 10 else ''}",
+            f"Langkah 3: F({val}) = {res}"
+        ]
+    else:
+        raise ValueError("Operasi bonus tidak dikenal")
+
+    return res, formula, steps
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
