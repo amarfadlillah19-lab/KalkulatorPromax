@@ -144,3 +144,41 @@ def calc_logika(op, data):
             return int(val)
         except:
             return bool(val)
+
+    val_a = parse_logic(a)
+    val_b = parse_logic(b) if b != "" else None
+
+    # Jika integer dan bukan boolean string, lakukan bitwise
+    use_bitwise = isinstance(val_a, int) and not isinstance(a, bool) and a not in ("true", "false", "True", "False")
+
+    if use_bitwise and val_b is not None and isinstance(val_b, int) and not isinstance(b, bool):
+        if op == "AND": res = val_a & val_b; formula = f"{val_a} & {val_b}"
+        elif op == "OR": res = val_a | val_b; formula = f"{val_a} | {val_b}"
+        elif op == "XOR": res = val_a ^ val_b; formula = f"{val_a} ^ {val_b}"
+        elif op == "NAND": res = ~(val_a & val_b); formula = f"~({val_a} & {val_b})"
+        elif op == "NOR": res = ~(val_a | val_b); formula = f"~({val_a} | {val_b})"
+        elif op == "NOT": res = ~val_a; formula = f"~{val_a}"
+        else: raise ValueError("Operator logika tidak dikenal")
+        steps = [f"Langkah 1: Konversi A = {a} → {val_a} (integer)", f"Langkah 2: Konversi B = {b} → {val_b} (integer)" if val_b is not None else f"Langkah 2: Hanya gunakan A = {val_a}", f"Langkah 3: {formula} = {res}"]
+    else:
+        # Boolean logic
+        if op == "AND":
+            if val_b is None: raise ValueError("AND memerlukan 2 input")
+            res = val_a and val_b; formula = f"{val_a} AND {val_b}"
+        elif op == "OR":
+            if val_b is None: raise ValueError("OR memerlukan 2 input")
+            res = val_a or val_b; formula = f"{val_a} OR {val_b}"
+        elif op == "XOR":
+            if val_b is None: raise ValueError("XOR memerlukan 2 input")
+            res = bool(val_a) ^ bool(val_b); formula = f"{bool(val_a)} XOR {bool(val_b)}"
+        elif op == "NAND":
+            if val_b is None: raise ValueError("NAND memerlukan 2 input")
+            res = not (val_a and val_b); formula = f"NOT ({val_a} AND {val_b})"
+        elif op == "NOR":
+            if val_b is None: raise ValueError("NOR memerlukan 2 input")
+            res = not (val_a or val_b); formula = f"NOT ({val_a} OR {val_b})"
+        elif op == "NOT":
+            res = not val_a; formula = f"NOT {val_a}"
+        else:
+            raise ValueError("Operator logika tidak dikenal")
+        steps = [f"Langkah 1: Konversi A = {a} → {bool(val_a)} (boolean)", f"Langkah 2: Konversi B = {b} → {bool(val_b)} (boolean)" if val_b is not None else f"Langkah 2: Hanya gunakan A = {bool(val_a)}", f"Langkah 3: {formula} = {res}"]

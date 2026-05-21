@@ -65,3 +65,48 @@
                                         <label class="input-label">Variable A:</label>
                                         <input type="text" id="inputA" class="retro-input" placeholder="0" autocomplete="off">
                                     </div>
+                                    <div class="col-6">
+                                        <label class="input-label">Variable B:</label>
+                                        <input type="text" id="inputB" class="retro-input" placeholder="0" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="row g-2 d-none" id="singleInput">
+                                    <div class="col-12">
+                                        <label class="input-label">Input Value:</label>
+                                        <input type="text" id="inputSingle" class="retro-input" placeholder="0" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Operation Buttons -->
+                            <div class="ops-section" id="opsSection">
+                                <!-- Aritmatika -->
+                                <div class="ops-grid active" data-cat="aritmatika">
+                                    <button class="op-btn" data-op="+">+</button>
+                                    <button class="op-btn" data-op="-">−</button>
+                                    <button class="op-btn" data-op="*">×</button>
+                                    <button class="op-btn" data-op="/">÷</button>
+                                    <button class="op-btn" data-op="%">%</button>
+                                    <button class="op-btn" data-op="^">^</button>
+                                    <button class="op-btn" data-op="mod">mod</button>
+                                    <button class="op-btn" data-op="floor">//</button>
+                                    <button class="op-btn wide" data-op="sqrt">√ AKAR</button>
+                                </div>
+
+                                <!-- Logika -->
+                                <div class="ops-grid" data-cat="logika">
+                                    <button class="op-btn" data-op="AND">AND</button>
+                                    <button class="op-btn" data-op="OR">OR</button>
+                                    <button class="op-btn" data-op="XOR">XOR</button>
+                                    <button class="op-btn" data-op="NOT">NOT</button>
+                                    <button class="op-btn" data-op="NAND">NAND</button>
+                                    <button class="op-btn" data-op="NOR">NOR</button>
+                                </div>
+
+                                <!-- Basis -->
+                                <div class="ops-grid basis-grid" data-cat="basis">
+                                    <button class="op-btn" data-op="dec-to-bin">DEC→BIN</button>
+                                    <button class="op-btn" data-op="dec-to-oct">DEC→OCT</button>
+                                    <button class="op-btn" data-op="dec-to-hex">DEC→HEX</button>
+                                    <button class="op-btn" data-op="bin-to-dec">BIN→DEC</button>
+                                    <button class="op-btn" data-op="oct-to-dec">OCT→DEC</button>
