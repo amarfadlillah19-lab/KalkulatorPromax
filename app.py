@@ -108,3 +108,39 @@ def calc_aritmatika(op, data):
         formula = f"{a} ÷ {b}"
         steps = [f"Langkah 1: Ambil nilai A = {a}", f"Langkah 2: Ambil nilai B = {b}", f"Langkah 3: {a} ÷ {b} = {res}"]
     elif op == "^":
+        res = a ** b
+        formula = f"{a} ^ {b}"
+        steps = [f"Langkah 1: Ambil nilai A = {a}", f"Langkah 2: Ambil nilai B = {b} (pangkat)", f"Langkah 3: {a} ^ {b} = {res}"]
+    elif op == "sqrt":
+        if a < 0: raise ValueError("Akar negatif tidak valid!")
+        res = math.sqrt(a)
+        formula = f"√{a}"
+        steps = [f"Langkah 1: Ambil nilai A = {a}", f"Langkah 2: Hitung akar kuadrat dari {a}", f"Langkah 3: √{a} = {res}"]
+    elif op == "mod":
+        res = a % b
+        formula = f"{a} mod {b}"
+        steps = [f"Langkah 1: Ambil nilai A = {a}", f"Langkah 2: Ambil nilai B = {b}", f"Langkah 3: {a} % {b} = {res}"]
+    elif op == "floor":
+        if b == 0: raise ValueError("Floor division oleh nol!")
+        res = a // b
+        formula = f"{a} // {b}"
+        steps = [f"Langkah 1: Ambil nilai A = {a}", f"Langkah 2: Ambil nilai B = {b}", f"Langkah 3: floor({a} / {b}) = {res}"]
+    else:
+        raise ValueError("Operator aritmatika tidak dikenal")
+
+    return round(res, 6) if isinstance(res, float) else res, formula, steps
+
+def calc_logika(op, data):
+    a = data.get("a", "")
+    b = data.get("b", "")
+
+    # Coba parse sebagai boolean atau integer
+    def parse_logic(val):
+        if isinstance(val, bool): return val
+        if isinstance(val, str):
+            if val.lower() in ("true", "1", "yes", "on"): return True
+            if val.lower() in ("false", "0", "no", "off", ""): return False
+        try:
+            return int(val)
+        except:
+            return bool(val)

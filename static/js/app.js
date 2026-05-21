@@ -24,3 +24,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set session date
     const now = new Date();
+    sessionDate.textContent = `# Session started: ${now.toISOString().split('T')[0]}`;
+
+    // Theme handling
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        isDark = false;
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        isDark = !isDark;
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Category mapping for titles
+    const catTitles = {
+        'aritmatika': 'Arithmetic.exe',
+        'logika': 'Logic.exe',
+        'basis': 'BasisConverter.exe',
+        'suhu': 'TempConverter.exe',
+        'kurs': 'Currency.exe',
+        'bonus': 'BonusTools.exe'
+    };
+
+    // Single input categories
+    const singleInputCats = ['basis', 'suhu', 'kurs', 'bonus'];
+
+    // Switch category function
+    function switchCategory(cat) {
+        currentCategory = cat;
+        currentOperation = null;
+
+        // Update tabs
+        tabs.forEach(t => {
+            t.classList.toggle('active', t.dataset.cat === cat);
+        });
+
+        // Update nav
+        navBtns.forEach(n => {
+            n.classList.toggle('active', n.dataset.cat === cat);
+        });
+
+        // Update ops grids
+        opsGrids.forEach(g => {
+            g.classList.toggle('active', g.dataset.cat === cat);
+        });
