@@ -157,3 +157,109 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function clearLogs() {
         logsBody.innerHTML = '<div class="log-line">> _</div>';
+        fetch('/clear-history', {method: 'POST'});
+    }
+
+    btnClear.addEventListener('click', clearLogs);
+
+    // Calculate
+    btnHitung.addEventListener('click', async () => {
+        if (!currentOperation) {
+            writeConsole('ERROR: Pilih operasi terlebih dahulu!');
+            return;
+        }
+
+        let payload = {
+            category: currentCategory,
+            operation: currentOperation
+        };
+
+        if (singleInputCats.includes(currentCategory)) {
+            const val = document.getElementById('inputSingle').value;
+            if (val === '') {
+                writeConsole('ERROR: Input tidak boleh kosong!');
+                return;
+            }
+            payload.value = val;
+        } else {
+            const a = inputA.value;
+            const b = inputB.value;
+            if (a === '' || (currentOperation !== 'NOT' && currentOperation !== 'sqrt' && b === '')) {
+                writeConsole('ERROR: Input tidak lengkap!');
+                return;
+            }
+            payload.a = a;
+            payload.b = b;
+        }
+
+        // Special case for sqrt and NOT - only need A
+        if (currentOperation === 'sqrt' || currentOperation === 'NOT') {
+            payload.b = '0';
+        }
+
+        try {
+            btnHitung.textContent = '[ MEMPROSES... ]';
+            btnHitung.disabled = true;
+
+            const res = await fetch('/calculate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+                writeConsole(`ERROR: ${data.error}`);
+            } else {
+                // Format output
+                let output = '';
+                output += `RUMUS: ${data.formula}\n`;
+                output += `HASIL: ${data.result}\n`;
+                output += '--- LANGKAH ---\n';
+                data.steps.forEach((step, i) => {
+                    output += `${i+1}. ${step}\n`;
+                });
+                writeConsole(output, true);
+                addLog(data.formula, data.result);
+            }
+        } catch (err) {
+            writeConsole(`ERROR: ${err.message}`);
+        } finally {
+            btnHitung.textContent = '[ HITUNG ]';
+            btnHitung.disabled = false;
+        }
+    });
+
+    // Enter key handler
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            btnHitung.click();
+        }
+    });
+
+    // Load history on startup
+    async function loadHistory() {
+        try {
+            const res = await fetch('/history');
+            const data = await res.json();
+            if (data.history && data.history.length > 0) {
+                logsBody.innerHTML = '';
+                data.history.forEach(item => {
+                    const time = new Date().toLocaleTimeString('id-ID', {hour12: false});
+                    const logLine = document.createElement('div');
+                    logLine.className = 'log-line';
+                    logLine.innerHTML = `<span class="timestamp">[${time}]</span> ${item.formula} = ${item.result}`;
+                    logsBody.appendChild(logLine);
+                });
+            }
+        } catch (e) {
+            console.log('History load failed', e);
+        }
+    }
+
+    loadHistory();
+
+    // Init
+    switchCategory('aritmatika');
+});
